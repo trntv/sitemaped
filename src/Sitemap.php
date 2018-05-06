@@ -27,6 +27,14 @@ class Sitemap
      */
     public $gzipLevel = -1;
     /**
+     * @var string
+     */
+    protected $baseNamespaceUri = 'http://www.w3.org/2000/xmlns/';
+    /**
+     * @var int
+     */
+    private $locCount = 0;
+    /**
      * @var \DOMDocument
      */
     private $document;
@@ -34,10 +42,14 @@ class Sitemap
      * @var \DOMElement
      */
     private $rootNode;
+
     /**
-     * @var string
+     * @return int
      */
-    protected $baseNamespaceUri = 'http://www.w3.org/2000/xmlns/';
+    public function getLocCount(): int
+    {
+        return $this->locCount;
+    }
 
     /**
      * @return string
@@ -52,6 +64,9 @@ class Sitemap
         }
 
         $this->appendElements($this->root);
+
+        $xpath = new \DOMXPath($this->document);
+        $this->locCount = $xpath->query('*/loc')->length;
 
         $data = $this->document->saveXML();
 

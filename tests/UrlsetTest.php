@@ -31,8 +31,7 @@ class UrlsetTest extends \PHPUnit\Framework\TestCase
             $urlset->addUrl($url);
         }
 
-        $sitemap = new Sitemap();
-        $sitemap->root = $urlset;
+        $sitemap = new Sitemap($urlset);
 
         $this->sitemap = $sitemap;
     }

@@ -18,8 +18,7 @@ class SitemapindexTest extends \PHPUnit\Framework\TestCase
             $index->addSitemap($sitemap);
         }
 
-        $sitemap = new Sitemap();
-        $sitemap->root = $index;
+        $sitemap = new Sitemap($index);
 
         $content = $sitemap->toXmlString();
 

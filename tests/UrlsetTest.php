@@ -10,7 +10,10 @@ use Sitemaped\Sitemap;
 
 class UrlsetTest extends \PHPUnit\Framework\TestCase
 {
-    public function testUrlset()
+    /** @var Sitemap */
+    private $sitemap;
+
+    public function setUp()
     {
         $urlset = new Urlset();
         foreach (range(1, 2) as $i) {
@@ -31,15 +34,32 @@ class UrlsetTest extends \PHPUnit\Framework\TestCase
         $sitemap = new Sitemap();
         $sitemap->root = $urlset;
 
-        $content = $sitemap->toXmlString();
+        $this->sitemap = $sitemap;
+    }
+
+    public function testXmlOutput()
+    {
+        $content = (string) $this->sitemap;
         $this->assertNotEmpty($content);
         $this->assertContains('urlset', $content);
         $this->assertContains('video:video', $content);
+    }
 
-        $content = $sitemap->toTxtString();
+    public function testTxtOutput()
+    {
+        $content = $this->sitemap->toTxtString();
         $this->assertNotEmpty($content);
         $this->assertContains('https://test.com/1', $content);
         $this->assertNotContains('https://test.com/image/1', $content);
+    }
+
+    public function testGzipCompression()
+    {
+        $content = $this->sitemap->toXmlString(true);
+        $content = gzdecode($content);
+        $this->assertContains('urlset', $content);
+        $this->assertContains('video:video', $content);
+        $this->assertContains('https://test.com/1', $content);
     }
 
 }

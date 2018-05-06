@@ -10,23 +10,39 @@ class Sitemap
     public const FORMAT_XML = 'xml';
     public const FORMAT_TXT = 'txt';
 
+    /**
+     * @var string
+     */
     public $version = '1.0';
+    /**
+     * @var string
+     */
     public $encoding = 'UTF-8';
-
-    protected $baseNamespaceUri = 'http://www.w3.org/2000/xmlns/';
-
-    /** @var Element */
+    /**
+     * @var Element
+     */
     public $root;
-
-    /** @var \DOMDocument */
+    /**
+     * @var int
+     */
+    public $gzipLevel = -1;
+    /**
+     * @var \DOMDocument
+     */
     private $document;
-    /** @var \DOMElement */
+    /**
+     * @var \DOMElement
+     */
     private $rootNode;
+    /**
+     * @var string
+     */
+    protected $baseNamespaceUri = 'http://www.w3.org/2000/xmlns/';
 
     /**
      * @return string
      */
-    public function toXmlString(): string
+    public function toXmlString($gzip = false): string
     {
         $this->document =  new \DOMDocument($this->version, $this->encoding);
         $this->document->formatOutput = true;
@@ -37,17 +53,31 @@ class Sitemap
 
         $this->appendElements($this->root);
 
-        return $this->document->saveXML();
+        $data = $this->document->saveXML();
+
+        if ($gzip === true) {
+            $this->ensureZlib();
+            $data = \gzencode($data, $this->gzipLevel);
+        }
+
+        return $data;
     }
 
     /**
+     * @param bool $gzip
      * @return string
      */
-    public function toTxtString(): string
+    public function toTxtString($gzip = false): string
     {
         $str = '';
         foreach ($this->ensureRoot()->getValue() as $url) {
             $str .= $url->loc."\r\n";
+        }
+
+        if ($gzip === true) {
+            $this->ensureZlib();
+
+            $str = \gzencode($str, $this->gzipLevel);
         }
 
         return $str;
@@ -55,15 +85,17 @@ class Sitemap
 
     /**
      * @param string $format
+     * @param bool $gzip
      * @return string
+
      */
-    private function toString($format = self::FORMAT_XML): string
+    public function toString($format = self::FORMAT_XML, $gzip = false): string
     {
         switch ($format) {
             case self::FORMAT_XML:
-                return $this->toXmlString();
+                return $this->toXmlString($gzip);
             case self::FORMAT_TXT:
-                return $this->toTxtString();
+                return $this->toTxtString($gzip);
             default:
                 throw new \InvalidArgumentException('Unknown format');
 
@@ -71,21 +103,25 @@ class Sitemap
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toString(self::FORMAT_XML);
+    }
+
+    /**
      * @param $path
      * @param string $format
      * @param bool $gzipped
      * @return int
-     * @throws \Exception
      */
     public function write($path, $format = self::FORMAT_XML, $gzipped = false): int
     {
         $content = $this->toString($format);
         if ($gzipped === true) {
-            if (!\extension_loaded('zlib')) {
-                throw new \Exception('zlib must be loaded to compress sitemap');
-            }
-
-            $content = \gzcompress($content);
+            $this->ensureZlib();
+            $content = \gzcompress($content, $this->gzipLevel);
         }
         return \file_put_contents($path, $content);
     }
@@ -165,6 +201,17 @@ class Sitemap
         }
 
         return $this->root;
+    }
+
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    private function ensureZlib()
+    {
+        if (!\extension_loaded('zlib')) {
+            throw new \Exception('zlib must be loaded to compress sitemap');
+        }
     }
 
     /**

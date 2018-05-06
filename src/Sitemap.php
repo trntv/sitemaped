@@ -31,10 +31,6 @@ class Sitemap
      */
     protected $baseNamespaceUri = 'http://www.w3.org/2000/xmlns/';
     /**
-     * @var int
-     */
-    private $locCount = 0;
-    /**
      * @var \DOMDocument
      */
     private $document;
@@ -46,9 +42,10 @@ class Sitemap
     /**
      * @return int
      */
-    public function getLocCount(): int
+    public function getCount(): int
     {
-        return $this->locCount;
+        $xpath = new \DOMXPath($this->document);
+        return $xpath->query('*/loc')->length;
     }
 
     /**
@@ -64,9 +61,6 @@ class Sitemap
         }
 
         $this->appendElements($this->root);
-
-        $xpath = new \DOMXPath($this->document);
-        $this->locCount = $xpath->query('*/loc')->length;
 
         $data = $this->document->saveXML();
 
@@ -225,7 +219,7 @@ class Sitemap
     private function ensureZlib()
     {
         if (!\extension_loaded('zlib')) {
-            throw new \Exception('zlib must be loaded to compress sitemap');
+            throw new \Exception('zlib must be loaded');
         }
     }
 

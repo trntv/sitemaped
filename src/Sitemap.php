@@ -40,6 +40,15 @@ class Sitemap
     private $rootNode;
 
     /**
+     * Sitemap constructor.
+     * @param Element $root
+     */
+    public function __construct(Element $root)
+    {
+        $this->root = $root;
+    }
+
+    /**
      * @return int
      */
     public function getCount(): int

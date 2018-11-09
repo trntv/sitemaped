@@ -1,6 +1,5 @@
 <?php
 
-
 use Sitemaped\Element\Sitemapindex;
 use Sitemaped\Sitemap;
 

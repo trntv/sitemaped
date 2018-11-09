@@ -102,7 +102,7 @@ class Url extends Element
     public function getValue(): array
     {
         $lastmod = $this->lastmod;
-        if (!($lastmod instanceof \DateTime)) {
+        if ($lastmod !== null && !($lastmod instanceof \DateTime)) {
             $lastmod = new \DateTime($this->lastmod);
         }
 

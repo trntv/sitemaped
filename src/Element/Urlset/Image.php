@@ -16,23 +16,23 @@ class Image extends Element
      */
     protected $loc;
     /**
-     * @var null
+     * @var string|null
      */
     protected $caption;
     /**
-     * @var null
+     * @var string|null
      */
     protected $geo_location;
     /**
-     * @var null
+     * @var string|null
      */
     protected $title;
     /**
-     * @var null
+     * @var string|null
      */
     protected $license;
     /**
-     * @var string
+     * @var string|null
      */
     protected $prefix = 'image';
     /**
@@ -47,7 +47,7 @@ class Image extends Element
      * @param string|null $title
      * @param string|null $license
      */
-    public function __construct(string $loc, string $caption = null, string $geo_location = null, string $title = null, string $license = null)
+    public function __construct(string $loc, ?string $caption = null, ?string $geo_location = null, ?string $title = null, ?string $license = null)
     {
         parent::__construct(self::NAME);
         $this->loc = $loc;
@@ -66,73 +66,65 @@ class Image extends Element
     }
 
     /**
-     * @param string $loc
+     * @return string|null
      */
-    public function setLoc(string $loc): void
-    {
-        $this->loc = $loc;
-    }
-
-    /**
-     * @return null
-     */
-    public function getCaption()
+    public function getCaption(): ?string
     {
         return $this->caption;
     }
 
     /**
-     * @param null $caption
+     * @param string|null $caption
      */
-    public function setCaption($caption): void
+    public function setCaption(?string $caption): void
     {
         $this->caption = $caption;
     }
 
     /**
-     * @return null
+     * @return string|null
      */
-    public function getGeoLocation()
+    public function getGeoLocation(): ?string
     {
         return $this->geo_location;
     }
 
     /**
-     * @param null $geo_location
+     * @param string|null $geo_location
      */
-    public function setGeoLocation($geo_location): void
+    public function setGeoLocation(?string $geo_location): void
     {
         $this->geo_location = $geo_location;
     }
 
     /**
-     * @return null
+     * @return string|null
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
     /**
-     * @param null $title
+     * @param string|null $title
      */
-    public function setTitle($title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }
 
     /**
-     * @return null
+     * @return string|null
      */
-    public function getLicense()
+    public function getLicense(): ?string
     {
         return $this->license;
     }
 
     /**
-     * @param null $license
+     * @param string|null $license
      */
-    public function setLicense($license): void
+    public function setLicense(?string $license): void
     {
         $this->license = $license;
     }

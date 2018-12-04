@@ -21,15 +21,15 @@ class Url extends Element
      */
     protected $loc;
     /**
-     * @var null
+     * @var \DateTime|string|null
      */
     protected $lastmod;
     /**
-     * @var string
+     * @var string|null
      */
     protected $changefreq;
     /**
-     * @var float
+     * @var float|null
      */
     protected $priority;
 
@@ -97,7 +97,7 @@ class Url extends Element
     }
 
     /**
-     * @return null
+     * @return \DateTime|string|null
      */
     public function getLastmod()
     {
@@ -105,7 +105,7 @@ class Url extends Element
     }
 
     /**
-     * @param null $lastmod
+     * @param \DateTime|string|null $lastmod
      */
     public function setLastmod($lastmod): void
     {
@@ -113,33 +113,33 @@ class Url extends Element
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getChangefreq(): string
+    public function getChangefreq(): ?string
     {
         return $this->changefreq;
     }
 
     /**
-     * @param string $changefreq
+     * @param string|null $changefreq
      */
-    public function setChangefreq(string $changefreq): void
+    public function setChangefreq(?string $changefreq): void
     {
         $this->changefreq = $changefreq;
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    public function getPriority(): float
+    public function getPriority(): ?float
     {
         return $this->priority;
     }
 
     /**
-     * @param float $priority
+     * @param float|null $priority
      */
-    public function setPriority(float $priority): void
+    public function setPriority(?float $priority): void
     {
         $this->priority = $priority;
     }
@@ -190,6 +190,14 @@ class Url extends Element
     public function setNews(array $news): void
     {
         $this->news = $news;
+    }
+
+    /**
+     * @return Element[]
+     */
+    public function getChildren(): array
+    {
+        return $this->children;
     }
 
     /**

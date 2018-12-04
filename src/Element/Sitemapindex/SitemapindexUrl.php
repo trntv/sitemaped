@@ -4,7 +4,7 @@ namespace Sitemaped\Element\Sitemapindex;
 
 use Sitemaped\Element\Element;
 
-class SitemapindexSitemap extends Element
+class SitemapindexUrl extends Element
 {
     public const NAME = 'sitemap';
 
@@ -13,7 +13,7 @@ class SitemapindexSitemap extends Element
      */
     protected $loc;
     /**
-     * @var string|\DateTime
+     * @var string|\DateTime|null
      */
     protected $lastmod;
     /**
@@ -53,7 +53,7 @@ class SitemapindexSitemap extends Element
     }
 
     /**
-     * @param \DateTime|string $lastmod
+     * @param \DateTime|string|null $lastmod
      */
     public function setLastmod($lastmod): void
     {

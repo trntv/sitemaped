@@ -27,15 +27,15 @@ class News extends Element
      */
     protected $publication_language;
     /**
-     * @var string
+     * @var string|null
      */
     protected $genres;
     /**
-     * @var string
+     * @var string|null
      */
     protected $keywords;
     /**
-     * @var string
+     * @var string|null
      */
     protected $stock_tickers;
     /**
@@ -85,27 +85,11 @@ class News extends Element
     }
 
     /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
      * @return mixed
      */
     public function getPublicationDate()
     {
         return $this->publication_date;
-    }
-
-    /**
-     * @param mixed $publication_date
-     */
-    public function setPublicationDate($publication_date): void
-    {
-        $this->publication_date = $publication_date;
     }
 
     /**
@@ -117,14 +101,6 @@ class News extends Element
     }
 
     /**
-     * @param string $publication_name
-     */
-    public function setPublicationName(string $publication_name): void
-    {
-        $this->publication_name = $publication_name;
-    }
-
-    /**
      * @return string
      */
     public function getPublicationLanguage(): string
@@ -133,57 +109,49 @@ class News extends Element
     }
 
     /**
-     * @param string $publication_language
+     * @return string|null
      */
-    public function setPublicationLanguage(string $publication_language): void
-    {
-        $this->publication_language = $publication_language;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGenres(): string
+    public function getGenres(): ?string
     {
         return $this->genres;
     }
 
     /**
-     * @param string $genres
+     * @param string|null $genres
      */
-    public function setGenres(string $genres): void
+    public function setGenres(?string $genres): void
     {
         $this->genres = $genres;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getKeywords(): string
+    public function getKeywords(): ?string
     {
         return $this->keywords;
     }
 
     /**
-     * @param string $keywords
+     * @param string|null $keywords
      */
-    public function setKeywords(string $keywords): void
+    public function setKeywords(?string $keywords): void
     {
         $this->keywords = $keywords;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getStockTickers(): string
+    public function getStockTickers(): ?string
     {
         return $this->stock_tickers;
     }
 
     /**
-     * @param string $stock_tickers
+     * @param string|null $stock_tickers
      */
-    public function setStockTickers(string $stock_tickers): void
+    public function setStockTickers(?string $stock_tickers): void
     {
         $this->stock_tickers = $stock_tickers;
     }

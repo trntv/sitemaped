@@ -115,6 +115,302 @@ class Video extends Element
     }
 
     /**
+     * @return string
+     */
+    public function getThumbnailLoc(): string
+    {
+        return $this->thumbnail_loc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentLoc(): ?string
+    {
+        return $this->content_loc;
+    }
+
+    /**
+     * @param string|null $content_loc
+     */
+    public function setContentLoc(?string $content_loc): void
+    {
+        $this->content_loc = $content_loc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlayerLoc(): ?string
+    {
+        return $this->player_loc;
+    }
+
+    /**
+     * @param string|null $player_loc
+     */
+    public function setPlayerLoc(?string $player_loc): void
+    {
+        $this->player_loc = $player_loc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDuration(): ?string
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param string|null $duration
+     */
+    public function setDuration(?string $duration): void
+    {
+        $this->duration = $duration;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpirationDate(): ?string
+    {
+        return $this->expiration_date;
+    }
+
+    /**
+     * @param string|null $expiration_date
+     */
+    public function setExpirationDate(?string $expiration_date): void
+    {
+        $this->expiration_date = $expiration_date;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRating(): ?string
+    {
+        return $this->rating;
+    }
+
+    /**
+     * @param string|null $rating
+     */
+    public function setRating(?string $rating): void
+    {
+        $this->rating = $rating;
+    }
+
+    /**
+     * @return int
+     */
+    public function getViewCount(): ?int
+    {
+        return $this->view_count;
+    }
+
+    /**
+     * @param int|null $view_count
+     */
+    public function setViewCount(?int $view_count): void
+    {
+        $this->view_count = $view_count;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicationDate(): ?string
+    {
+        return $this->publication_date;
+    }
+
+    /**
+     * @param string|null $publication_date
+     */
+    public function setPublicationDate(?string $publication_date): void
+    {
+        $this->publication_date = $publication_date;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFamilyFriendly(): ?string
+    {
+        return $this->family_friendly;
+    }
+
+    /**
+     * @param string|null $family_friendly
+     */
+    public function setFamilyFriendly(?string $family_friendly): void
+    {
+        $this->family_friendly = $family_friendly;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTag(): ?string
+    {
+        return $this->tag;
+    }
+
+    /**
+     * @param string|null $tag
+     */
+    public function setTag(?string $tag): void
+    {
+        $this->tag = $tag;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param string|null $category
+     */
+    public function setCategory(?string $category): void
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRestriction(): ?string
+    {
+        return $this->restriction;
+    }
+
+    /**
+     * @param string|null $restriction
+     */
+    public function setRestriction(?string $restriction): void
+    {
+        $this->restriction = $restriction;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGalleryLoc(): ?string
+    {
+        return $this->gallery_loc;
+    }
+
+    /**
+     * @param string|null $gallery_loc
+     */
+    public function setGalleryLoc(?string $gallery_loc): void
+    {
+        $this->gallery_loc = $gallery_loc;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param string|null $price
+     */
+    public function setPrice(?string $price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequiresSubscription(): ?string
+    {
+        return $this->requires_subscription;
+    }
+
+    /**
+     * @param string|null $requires_subscription
+     */
+    public function setRequiresSubscription(?string $requires_subscription): void
+    {
+        $this->requires_subscription = $requires_subscription;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUploader(): ?string
+    {
+        return $this->uploader;
+    }
+
+    /**
+     * @param string|null $uploader
+     */
+    public function setUploader(?string $uploader): void
+    {
+        $this->uploader = $uploader;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlatform(): ?string
+    {
+        return $this->platform;
+    }
+
+    /**
+     * @param string|null $platform
+     */
+    public function setPlatform(?string $platform): void
+    {
+        $this->platform = $platform;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLive(): ?string
+    {
+        return $this->live;
+    }
+
+    /**
+     * @param string|null $live
+     */
+    public function setLive(?string $live): void
+    {
+        $this->live = $live;
+    }
+
+    /**
      * @return array
      */
     public function getValue(): array

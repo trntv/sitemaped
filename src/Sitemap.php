@@ -63,12 +63,15 @@ class Sitemap
 
     /**
      * @param bool $gzip
+     * @param bool $formatOutput
+     *
      * @return string
+     * @throws \Exception
      */
-    public function toXmlString(bool $gzip = false): string
+    public function toXmlString(bool $gzip = false, bool $formatOutput = false): string
     {
         $this->document =  new \DOMDocument($this->version, $this->encoding);
-        $this->document->formatOutput = true;
+        $this->document->formatOutput = $formatOutput;
 
         if ($this->root === null) {
             throw new DomainException('Root must be set');
@@ -273,7 +276,7 @@ class Sitemap
         }
 
         if (\is_scalar($value)) {
-            $xmlElement->nodeValue = $this->normalizeValue($value);
+            $xmlElement->nodeValue = $value;
         }
 
         if ($value instanceof \DateTime) {
@@ -324,14 +327,5 @@ class Sitemap
         if (!\extension_loaded('zlib')) {
             throw new \Exception('zlib must be loaded');
         }
-    }
-
-    /**
-     * @param $value
-     * @return string
-     */
-    private function normalizeValue($value): string
-    {
-        return \htmlentities((string) $value);
     }
 }

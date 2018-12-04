@@ -1,4 +1,4 @@
-# PHP Sitemap abstraction library [Work in progress]
+# PHP Sitemap abstraction library
 --- 
 1. Add urls one-by-one
     ```php
@@ -56,7 +56,7 @@
     $sitemap->write(__DIR__ . '/sitemap.txt', Sitemap::FORMAT_TXT);
     ```
 3. Sitemap index
-    ```
+    ```php
     $index = new Sitemapindex();
     $sitemap = new Sitemap($index);
     

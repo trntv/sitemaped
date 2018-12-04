@@ -19,9 +19,9 @@ class Sitemapindex extends Element
     }
 
     /**
-     * @param SitemapindexUrl $sitemap
+     * @param Sitemapnode $sitemap
      */
-    public function addSitemap(SitemapindexUrl $sitemap): void
+    public function addSitemap(Sitemapnode $sitemap): void
     {
         if (count($this->value) >= 50000) {
             throw new \DomainException('Urls limit reached');

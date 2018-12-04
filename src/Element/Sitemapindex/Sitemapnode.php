@@ -4,7 +4,7 @@ namespace Sitemaped\Element\Sitemapindex;
 
 use Sitemaped\Element\Element;
 
-class SitemapindexUrl extends Element
+class Sitemapnode extends Element
 {
     public const NAME = 'sitemap';
 

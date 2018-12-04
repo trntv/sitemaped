@@ -1,4 +1,4 @@
-# PHP Sitemap abstraction library [Work in progress]
+# PHP Sitemap abstraction library
 --- 
 1. Add urls one-by-one
     ```php

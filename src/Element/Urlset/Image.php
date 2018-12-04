@@ -10,31 +10,27 @@ use Sitemaped\Element\Element;
  */
 class Image extends Element
 {
+    public const NAME = 'image';
     /**
      * @var string
      */
-    public $loc;
+    protected $loc;
     /**
      * @var null
      */
-    public $caption;
+    protected $caption;
     /**
      * @var null
      */
-    public $geo_location;
+    protected $geo_location;
     /**
      * @var null
      */
-    public $title;
+    protected $title;
     /**
      * @var null
      */
-    public $license;
-
-    /**
-     * @var string
-     */
-    protected $name = 'image';
+    protected $license;
     /**
      * @var string
      */
@@ -53,6 +49,7 @@ class Image extends Element
      */
     public function __construct(string $loc, string $caption = null, string $geo_location = null, string $title = null, string $license = null)
     {
+        parent::__construct(self::NAME);
         $this->loc = $loc;
         $this->caption = $caption;
         $this->geo_location = $geo_location;
@@ -60,6 +57,85 @@ class Image extends Element
         $this->license = $license;
     }
 
+    /**
+     * @return string
+     */
+    public function getLoc(): string
+    {
+        return $this->loc;
+    }
+
+    /**
+     * @param string $loc
+     */
+    public function setLoc(string $loc): void
+    {
+        $this->loc = $loc;
+    }
+
+    /**
+     * @return null
+     */
+    public function getCaption()
+    {
+        return $this->caption;
+    }
+
+    /**
+     * @param null $caption
+     */
+    public function setCaption($caption): void
+    {
+        $this->caption = $caption;
+    }
+
+    /**
+     * @return null
+     */
+    public function getGeoLocation()
+    {
+        return $this->geo_location;
+    }
+
+    /**
+     * @param null $geo_location
+     */
+    public function setGeoLocation($geo_location): void
+    {
+        $this->geo_location = $geo_location;
+    }
+
+    /**
+     * @return null
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param null $title
+     */
+    public function setTitle($title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return null
+     */
+    public function getLicense()
+    {
+        return $this->license;
+    }
+
+    /**
+     * @param null $license
+     */
+    public function setLicense($license): void
+    {
+        $this->license = $license;
+    }
 
     /**
      * @return array
@@ -67,11 +143,11 @@ class Image extends Element
     public function getValue(): array
     {
         $value = [
-            new Element('loc', $this->loc, $this->prefix, $this->namespaceUri),
-            $this->caption ? new Element('caption', $this->caption, $this->prefix, $this->namespaceUri) : null,
-            $this->geo_location ? new Element('geo_location', $this->geo_location, $this->prefix, $this->namespaceUri) : null,
-            $this->title ? new Element('title', $this->title, $this->prefix, $this->namespaceUri) : null,
-            $this->license ? new Element('license', $this->license, $this->prefix, $this->namespaceUri) : null,
+            new Element('loc', $this->loc, $this->prefix, $this->getNamespace()),
+            $this->caption ? new Element('caption', $this->caption, $this->prefix, $this->getNamespace()) : null,
+            $this->geo_location ? new Element('geo_location', $this->geo_location, $this->prefix, $this->getNamespace()) : null,
+            $this->title ? new Element('title', $this->title, $this->prefix, $this->getNamespace()) : null,
+            $this->license ? new Element('license', $this->license, $this->prefix, $this->getNamespace()) : null,
         ];
 
         return \array_filter($value);

@@ -9,40 +9,35 @@ use Sitemaped\Element\Element;
  */
 class News extends Element
 {
+    public const NAME = 'news';
     /**
      * @var string
      */
-    public $title;
+    protected $title;
     /**
      * @var
      */
-    public $publication_date;
-
+    protected $publication_date;
     /**
      * @var string
      */
-    public $publication_name;
+    protected $publication_name;
     /**
      * @var string
      */
-    public $publication_language;
+    protected $publication_language;
     /**
      * @var string
      */
-    public $genres;
+    protected $genres;
     /**
      * @var string
      */
-    public $keywords;
+    protected $keywords;
     /**
      * @var string
      */
-    public $stock_tickers;
-
-    /**
-     * @var string
-     */
-    protected $name = 'news';
+    protected $stock_tickers;
     /**
      * @var string
      */
@@ -71,6 +66,7 @@ class News extends Element
         string $stock_tickers = null
     )
     {
+        parent::__construct(self::NAME);
         $this->title = $title;
         $this->publication_date = $publication_date;
         $this->publication_name = $publication_name;
@@ -81,20 +77,132 @@ class News extends Element
     }
 
     /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPublicationDate()
+    {
+        return $this->publication_date;
+    }
+
+    /**
+     * @param mixed $publication_date
+     */
+    public function setPublicationDate($publication_date): void
+    {
+        $this->publication_date = $publication_date;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicationName(): string
+    {
+        return $this->publication_name;
+    }
+
+    /**
+     * @param string $publication_name
+     */
+    public function setPublicationName(string $publication_name): void
+    {
+        $this->publication_name = $publication_name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicationLanguage(): string
+    {
+        return $this->publication_language;
+    }
+
+    /**
+     * @param string $publication_language
+     */
+    public function setPublicationLanguage(string $publication_language): void
+    {
+        $this->publication_language = $publication_language;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGenres(): string
+    {
+        return $this->genres;
+    }
+
+    /**
+     * @param string $genres
+     */
+    public function setGenres(string $genres): void
+    {
+        $this->genres = $genres;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKeywords(): string
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * @param string $keywords
+     */
+    public function setKeywords(string $keywords): void
+    {
+        $this->keywords = $keywords;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStockTickers(): string
+    {
+        return $this->stock_tickers;
+    }
+
+    /**
+     * @param string $stock_tickers
+     */
+    public function setStockTickers(string $stock_tickers): void
+    {
+        $this->stock_tickers = $stock_tickers;
+    }
+
+    /**
      * @return array|mixed
      */
     public function getValue(): array
     {
         $value = [
-            new Element('title', $this->title, $this->prefix, $this->getNamespaceUri()),
+            new Element('title', $this->title, $this->prefix, $this->getNamespace()),
             new Element('publication', [
-                new Element('name', $this->publication_name, $this->prefix, $this->getNamespaceUri()),
-                new Element('language', $this->publication_language, $this->prefix, $this->getNamespaceUri()),
-            ], $this->prefix, $this->getNamespaceUri()),
-            $this->publication_date ? new Element('publication_date', $this->publication_date, $this->prefix, $this->getNamespaceUri()) : null,
-            $this->genres ? new Element('genres', $this->genres, $this->prefix, $this->getNamespaceUri()) : null,
-            $this->keywords ? new Element('keywords', $this->keywords, $this->prefix, $this->getNamespaceUri()) : null,
-            $this->stock_tickers ? new Element('stock_tickers', $this->stock_tickers, $this->prefix, $this->getNamespaceUri()) : null,
+                new Element('name', $this->publication_name, $this->prefix, $this->getNamespace()),
+                new Element('language', $this->publication_language, $this->prefix, $this->getNamespace()),
+            ], $this->prefix, $this->getNamespace()),
+            $this->publication_date ? new Element('publication_date', $this->publication_date, $this->prefix, $this->getNamespace()) : null,
+            $this->genres ? new Element('genres', $this->genres, $this->prefix, $this->getNamespace()) : null,
+            $this->keywords ? new Element('keywords', $this->keywords, $this->prefix, $this->getNamespace()) : null,
+            $this->stock_tickers ? new Element('stock_tickers', $this->stock_tickers, $this->prefix, $this->getNamespace()) : null,
         ];
 
         return \array_filter($value);

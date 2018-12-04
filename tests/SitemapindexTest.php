@@ -10,7 +10,7 @@ class SitemapindexTest extends \PHPUnit\Framework\TestCase
         $index = new Sitemapindex\Sitemapindex();
 
         foreach (range(1, 2) as $i) {
-            $sitemap = new Sitemapindex\Sitemap(
+            $sitemap = new Sitemapindex\SitemapindexSitemap(
                 'http://test.com/'.$i,
                '-1 year'
             );

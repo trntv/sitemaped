@@ -4,6 +4,7 @@ namespace Sitemaped;
 
 use DomainException;
 use Sitemaped\Element\Element;
+use Sitemaped\Element\Urlset\Urlset;
 
 class Sitemap
 {
@@ -13,19 +14,19 @@ class Sitemap
     /**
      * @var string
      */
-    public $version = '1.0';
+    protected $version = '1.0';
     /**
      * @var string
      */
-    public $encoding = 'UTF-8';
+    protected $encoding = 'UTF-8';
     /**
      * @var Element
      */
-    public $root;
+    protected $root;
     /**
      * @var int
      */
-    public $gzipLevel = -1;
+    protected $gzipLevel = -1;
     /**
      * @var string
      */
@@ -43,8 +44,11 @@ class Sitemap
      * Sitemap constructor.
      * @param Element $root
      */
-    public function __construct(Element $root)
+    public function __construct(?Element $root = null)
     {
+        if ($root === null) {
+            $root = new Urlset();
+        }
         $this->root = $root;
     }
 
@@ -58,9 +62,10 @@ class Sitemap
     }
 
     /**
+     * @param bool $gzip
      * @return string
      */
-    public function toXmlString($gzip = false): string
+    public function toXmlString(bool $gzip = false): string
     {
         $this->document =  new \DOMDocument($this->version, $this->encoding);
         $this->document->formatOutput = true;
@@ -85,11 +90,11 @@ class Sitemap
      * @param bool $gzip
      * @return string
      */
-    public function toTxtString($gzip = false): string
+    public function toTxtString(bool $gzip = false): string
     {
         $str = '';
         foreach ($this->ensureRoot()->getValue() as $url) {
-            $str .= $url->loc."\r\n";
+            $str .= $url->getLoc()."\r\n";
         }
 
         if ($gzip === true) {
@@ -107,7 +112,7 @@ class Sitemap
      * @return string
 
      */
-    public function toString($format = self::FORMAT_XML, $gzip = false): string
+    public function toString(string $format = self::FORMAT_XML, bool $gzip = false): string
     {
         switch ($format) {
             case self::FORMAT_XML:
@@ -129,12 +134,12 @@ class Sitemap
     }
 
     /**
-     * @param $path
+     * @param string $path
      * @param string $format
      * @param bool $gzipped
      * @return int
      */
-    public function write($path, $format = self::FORMAT_XML, $gzipped = false): int
+    public function write(string $path, $format = self::FORMAT_XML, $gzipped = false): int
     {
         $content = $this->toString($format);
         if ($gzipped === true) {
@@ -154,6 +159,86 @@ class Sitemap
     }
 
     /**
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param string $version
+     */
+    public function setVersion(string $version): void
+    {
+        $this->version = $version;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEncoding(): string
+    {
+        return $this->encoding;
+    }
+
+    /**
+     * @param string $encoding
+     */
+    public function setEncoding(string $encoding): void
+    {
+        $this->encoding = $encoding;
+    }
+
+    /**
+     * @return Element
+     */
+    public function getRoot(): Element
+    {
+        return $this->root;
+    }
+
+    /**
+     * @param Element $root
+     */
+    public function setRoot(Element $root): void
+    {
+        $this->root = $root;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGzipLevel(): int
+    {
+        return $this->gzipLevel;
+    }
+
+    /**
+     * @param int $gzipLevel
+     */
+    public function setGzipLevel(int $gzipLevel): void
+    {
+        $this->gzipLevel = $gzipLevel;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseNamespaceUri(): string
+    {
+        return $this->baseNamespaceUri;
+    }
+
+    /**
+     * @param string $baseNamespaceUri
+     */
+    public function setBaseNamespaceUri(string $baseNamespaceUri): void
+    {
+        $this->baseNamespaceUri = $baseNamespaceUri;
+    }
+
+    /**
      * @param Element $element
      * @param \DOMNode|null $parentNode
      * @return null
@@ -161,6 +246,10 @@ class Sitemap
     protected function appendElements(Element $element, \DOMNode $parentNode = null): void
     {
         $xmlElement = $this->document->createElement($element->getName());
+        foreach ($element->getAttributes() as $attrName => $attrValue) {
+            $xmlElement->setAttribute($attrName, $attrValue);
+        }
+
         if ($parentNode === null) {
             $this->document->appendChild($xmlElement);
             $this->rootNode = $xmlElement;
@@ -172,10 +261,10 @@ class Sitemap
         if ($element->getPrefix()) {
             $name = \sprintf('%s:%s', $name, $element->getPrefix());
         }
-        $this->addRootNamespace($this->baseNamespaceUri, $name, $element->getNamespaceUri());
+        $this->addRootNamespace($this->baseNamespaceUri, $name, $element->getNamespace()->getUri());
 
-        foreach ($element->getExtraNamespaces() as $name => $uri) {
-            $this->addRootNamespace($this->baseNamespaceUri, $name, $uri);
+        foreach ($element->getExtraNamespaces() as $ns) {
+            $this->addRootNamespace($this->baseNamespaceUri, $ns->getName(), $ns->getUri());
         }
 
         $value = $element->getValue();
@@ -194,7 +283,12 @@ class Sitemap
         if (\is_iterable($value)) {
             foreach ($value as $v)
             {
-                $this->appendElements($v, $xmlElement);
+                if (!is_array($v)) {
+                    $v = [$v];
+                }
+                foreach ($v as $v1) {
+                    $this->appendElements($v1, $xmlElement);
+                }
             }
         }
     }

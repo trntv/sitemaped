@@ -9,15 +9,11 @@ class Element
      */
     protected $name;
     /**
-     * @var mixed
+     * @var mixed|null
      */
     protected $value;
     /**
-     * @var null|string
-     */
-    protected $namespaceUri = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-    /**
-     * @var array
+     * @var NS[]
      */
     protected $extraNamespaces = [];
     /**
@@ -28,24 +24,39 @@ class Element
      * @var array
      */
     protected $attributes = [];
+    /**
+     * @var Element[]
+     */
+    protected $children = [];
+    /**
+     * @var NS
+     */
+    protected $namespace;
+    /**
+     * @var null|string
+     */
+    protected $namespaceName;
+    /**
+     * @var null|string
+     */
+    protected $namespaceUri = 'http://www.sitemaps.org/schemas/sitemap/0.9';
 
     /**
-     * @param null|string $namespace
-     * @param iterable $attributes
-     * @param iterable $items
+     * Element constructor.
+     *
+     * @param string      $name
+     * @param             $value
+     * @param string|null $prefix
+     * @param NS|null     $namespace
+     * @param array       $attributes
      */
-    public function __construct(string $name, $value, ?string $prefix = null, string $namespace = null)
+    public function __construct(string $name, $value = null, ?string $prefix = null, ?NS $namespace = null, array $attributes = [])
     {
         $this->name = $name;
         $this->value = $value;
-
-        if ($prefix !== null) {
-            $this->prefix = $prefix;
-        }
-
-        if ($namespace !== null) {
-            $this->namespaceUri = $namespace;
-        }
+        $this->prefix = $prefix ?: $this->prefix;
+        $this->namespace = $namespace ?: new NS($this->namespaceUri);
+        $this->attributes = $attributes;
     }
 
     /**
@@ -54,7 +65,7 @@ class Element
     public function getName(): string
     {
         $name = $this->name;
-        if (!empty($this->prefix)) {
+        if ($this->prefix !== null && $this->prefix !== '') {
             $name = \sprintf('%s:%s', $this->prefix, $this->name);
         }
 
@@ -67,14 +78,6 @@ class Element
     public function getAttributes(): iterable
     {
         return $this->attributes;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getNamespaceUri(): ?string
-    {
-        return $this->namespaceUri;
     }
 
     /**
@@ -104,10 +107,51 @@ class Element
     }
 
     /**
-     * @return array
+     * @return NS
+     */
+    public function getNamespace(): NS
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * @param NS $namespace
+     */
+    public function setNamespace(NS $namespace): void
+    {
+        $this->namespace = $namespace;
+    }
+
+    /**
+     * @return NS[]
      */
     public function getExtraNamespaces(): array
     {
-        return $this->extraNamespaces;
+        $childrenNamespaces = [];
+        foreach ($this->children as $child) {
+            $rns = $child->getNamespace();
+            $childrenNamespaces[$rns->getName()] = $rns;
+            foreach ($child->getExtraNamespaces() as $ns) {
+                $childrenNamespaces[$ns->getName()] = $ns;
+            }
+        }
+
+        return array_unique(array_merge($this->extraNamespaces, $childrenNamespaces));
+    }
+
+    /**
+     * @return Element[]
+     */
+    public function getChildren(): array
+    {
+        return $this->children;
+    }
+
+    /**
+     * @param Element $children
+     */
+    public function addChild(Element $children): void
+    {
+        $this->children[] = $children;
     }
 }

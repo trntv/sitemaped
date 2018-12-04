@@ -6,14 +6,7 @@ use Sitemaped\Element\Element;
 
 class Urlset extends Element
 {
-    /**
-     * @var string
-     */
-    protected $name = 'urlset';
-    /**
-     * @var string
-     */
-    protected $namespaceUri = 'http://www.sitemaps.org/schemas/sitemap/0.9';
+    public const NAME = 'urlset';
 
     /**
      * Urlset constructor.
@@ -21,6 +14,7 @@ class Urlset extends Element
      */
     public function __construct(iterable $urls = [])
     {
+        parent::__construct(self::NAME);
         $this->value = $urls;
     }
 

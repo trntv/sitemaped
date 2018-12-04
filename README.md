@@ -1,7 +1,7 @@
 # PHP Sitemap abstraction library [Work in progress]
 --- 
 1. Add urls one-by-one
-    ```
+    ```php
     $urlset = new Urlset($links);
     
     foreach(range('a', 'z') as $letter) {
@@ -29,7 +29,7 @@
     ```
 
 2. Using links generator
-    ```
+    ```php
     $links = function() {
          foreach(range('a', 'z') as $letter) {
              $url = new Url(
@@ -54,4 +54,19 @@
     $sitemap->toTxtString();
     $sitemap->write(__DIR__ . '/sitemap.xml');
     $sitemap->write(__DIR__ . '/sitemap.txt', Sitemap::FORMAT_TXT);
+    ```
+3. Sitemap index
+    ```
+    $index = new Sitemapindex();
+    $sitemap = new Sitemap($index);
+    
+    foreach (range(1, 2) as $i) {
+        $sitemap = new SitemapindexSitemap(
+            'http://test.com/'.$i,
+           '-1 year'
+        );
+        $index->addSitemap($sitemap);
+    }
+
+    $content = $sitemap->toXmlString();
     ```

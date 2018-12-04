@@ -3,9 +3,11 @@
 namespace Sitemaped\Element\Urlset;
 
 use Sitemaped\Element\Element;
+use Sitemaped\Element\NS;
 
 class Url extends Element
 {
+    public const NAME = 'url';
     public const CHANGEFREQ_ALWAYS = 'always';
     public const CHANGEFREQ_HOURLY = 'hourly';
     public const CHANGEFREQ_DAILY = 'daily';
@@ -17,41 +19,32 @@ class Url extends Element
     /**
      * @var string
      */
-    public $loc;
+    protected $loc;
     /**
      * @var null
      */
-    public $lastmod;
+    protected $lastmod;
     /**
      * @var string
      */
-    public $changefreq;
+    protected $changefreq;
     /**
      * @var float
      */
-    public $priority;
+    protected $priority;
 
     /**
      * @var array
      */
-    public $images = [];
+    protected $images = [];
     /**
      * @var array
      */
-    public $videos = [];
+    protected $videos = [];
     /**
      * @var array
      */
-    public $news = [];
-
-    /**
-     * @var string
-     */
-    protected $name = 'url';
-    /**
-     * @var string
-     */
-    protected $namespaceUri = 'http://www.sitemaps.org/schemas/sitemap/0.9';
+    protected $news = [];
 
     /**
      * @param string $loc
@@ -61,13 +54,20 @@ class Url extends Element
      */
     public function __construct(string $loc, $lastmod = null, string $changefreq = null, float $priority = null)
     {
+        parent::__construct(self::NAME);
         $this->loc = $loc;
         $this->lastmod = $lastmod;
         $this->changefreq = $changefreq;
         $this->priority = $priority;
     }
 
-    // up to 1000 images
+    /**
+     * @return string
+     */
+    public function getLoc(): string
+    {
+        return $this->loc;
+    }
 
     /**
      * @param Image $image
@@ -97,7 +97,116 @@ class Url extends Element
     }
 
     /**
+     * @return null
+     */
+    public function getLastmod()
+    {
+        return $this->lastmod;
+    }
+
+    /**
+     * @param null $lastmod
+     */
+    public function setLastmod($lastmod): void
+    {
+        $this->lastmod = $lastmod;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChangefreq(): string
+    {
+        return $this->changefreq;
+    }
+
+    /**
+     * @param string $changefreq
+     */
+    public function setChangefreq(string $changefreq): void
+    {
+        $this->changefreq = $changefreq;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPriority(): float
+    {
+        return $this->priority;
+    }
+
+    /**
+     * @param float $priority
+     */
+    public function setPriority(float $priority): void
+    {
+        $this->priority = $priority;
+    }
+
+    /**
      * @return array
+     */
+    public function getImages(): array
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param array $images
+     */
+    public function setImages(array $images): void
+    {
+        $this->images = $images;
+    }
+
+    /**
+     * @return array
+     */
+    public function getVideos(): array
+    {
+        return $this->videos;
+    }
+
+    /**
+     * @param array $videos
+     */
+    public function setVideos(array $videos): void
+    {
+        $this->videos = $videos;
+    }
+
+    /**
+     * @return array
+     */
+    public function getNews(): array
+    {
+        return $this->news;
+    }
+
+    /**
+     * @param array $news
+     */
+    public function setNews(array $news): void
+    {
+        $this->news = $news;
+    }
+
+    /**
+     * @param string $href
+     * @param string $lang
+     */
+    public function addAlternate(string $href, string $lang): void
+    {
+        $this->addChild(new Element('link', null, 'xhtml', new NS('http://www.w3.org/1999/xhtml', 'xmlns:xhtml'), [
+            'rel' => 'alternate',
+            'hreflang' => $lang,
+            'href' => $href,
+        ]));
+    }
+
+    /**
+     * @return mixed[]
      */
     public function getValue(): array
     {
@@ -110,7 +219,8 @@ class Url extends Element
             new Element('loc', $this->loc),
             $this->lastmod ? new Element('lastmod', $lastmod->format(\DateTime::W3C)) : null,
             $this->changefreq ? new Element('changefreq', $this->changefreq) : null,
-            $this->priority ? new Element('priority', $this->priority) : null
+            $this->priority ? new Element('priority', $this->priority) : null,
+            $this->children,
         ];
         return \array_merge(\array_filter($value), $this->images, $this->videos, $this->news);
     }

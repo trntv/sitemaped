@@ -6,14 +6,7 @@ use Sitemaped\Element\Element;
 
 class Sitemapindex extends Element
 {
-    /**
-     * @var string
-     */
-    protected $name = 'sitemapindex';
-    /**
-     * @var string
-     */
-    protected $namespaceUri = 'http://www.sitemaps.org/schemas/sitemap/0.9';
+    public const NAME = 'sitemapindex';
 
     /**
      * Sitemapindex constructor.
@@ -21,13 +14,14 @@ class Sitemapindex extends Element
      */
     public function __construct(iterable $sitemaps = [])
     {
+        parent::__construct(self::NAME);
         $this->value = $sitemaps;
     }
 
     /**
-     * @param Sitemap $sitemap
+     * @param SitemapindexSitemap $sitemap
      */
-    public function addSitemap(Sitemap $sitemap): void
+    public function addSitemap(SitemapindexSitemap $sitemap): void
     {
         if (count($this->value) >= 50000) {
             throw new \DomainException('Urls limit reached');

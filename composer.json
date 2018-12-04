@@ -15,6 +15,7 @@
         }
     },
     "require": {
+        "ext-dom": "@stable",
         "php": "^7.1"
     },
     "require-dev": {
